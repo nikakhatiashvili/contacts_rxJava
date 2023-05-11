@@ -53,12 +53,10 @@ class ContactsViewModel @Inject constructor(
         }
     }
 
-    private fun filterContacts(data: List<Contact>, str: String): List<Contact> {
-        if (!str.contains("[0-9]".toRegex())){
-            return data.filter { it.name.contains(str, ignoreCase = true) }
-        }else
-            return data.filter { it ->
-                it.number.replace("\\s".toRegex(), "").contains(str,ignoreCase = true)
-            }
-    }
+    private fun filterContacts(data: List<Contact>, str: String) =
+        if (!str.contains("[0-9]".toRegex())) {
+            data.filter { it.name.contains(str, ignoreCase = true) }
+        } else
+            data.filter { it.number.replace("\\s".toRegex(), "").contains(str, ignoreCase = true) }
+
 }

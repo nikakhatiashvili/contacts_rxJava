@@ -3,6 +3,7 @@ package com.example.contacts.presentation
 import android.view.View
 import android.widget.Toast
 import com.example.contacts.domain.Contact
+import com.example.contacts.presentation.adapter.ContactsAdapter
 
 interface ContactsUi {
 
@@ -20,11 +21,20 @@ interface ContactsUi {
 
     class SuccessUi(private val list: List<Contact>) : ContactsUi {
         override fun apply(adapter: ContactsAdapter, progressBar: View) {
-            adapter.data = list
+            val transformedList = mutableListOf<ContactsAdapter.ListItem>()
+            var currentHeader: Char? = null
+            for (contact in list) {
+                val firstChar = contact.name.first()
+                if (firstChar != currentHeader) {
+                    transformedList.add(ContactsAdapter.ListItem.GroupItem(firstChar.toString()))
+                    currentHeader = firstChar
+                }
+                transformedList.add(ContactsAdapter.ListItem.UiContact(contact))
+            }
+            adapter.submitList(transformedList)
             progressBar.visibility = View.GONE
         }
     }
-
     class ErrorUi(private val message: String?) : ContactsUi {
         override fun apply(adapter: ContactsAdapter, progressBar: View) {
             Toast.makeText(progressBar.context, message, Toast.LENGTH_SHORT).show()
