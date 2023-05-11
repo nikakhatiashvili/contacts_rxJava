@@ -1,8 +1,11 @@
 package com.example.contacts.presentation
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.contacts.R
 import com.example.contacts.databinding.FragmentContactsBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -48,7 +52,7 @@ class ContactsFragment : Fragment() {
             contactsRv.layoutManager = LinearLayoutManager(requireContext())
 
             editText.doAfterTextChanged {
-                viewModel.filterContacts(editText.text.toString())
+                viewModel.filterContacts(it.toString())
             }
         }
 
@@ -85,8 +89,23 @@ class ContactsFragment : Fragment() {
                 )
             ) {
                 showPermissionNeedsToBeGrantedDialog()
+            }else{
+                showPermissionNeedsToBeGrantedSnackbar()
             }
         }
+    }
+
+    private fun showPermissionNeedsToBeGrantedSnackbar() {
+        Snackbar.make(
+            binding.root,
+            getString(R.string.permission_message_from_snackbar),
+            Snackbar.LENGTH_SHORT
+        ).setAction(getString(R.string.settings)) {
+            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+            val uri = Uri.fromParts("package", activity!!.packageName, null)
+            intent.data = uri
+            startActivity(intent)
+        }.show()
     }
 
     private fun showPermissionNeedsToBeGrantedDialog() {
@@ -97,6 +116,7 @@ class ContactsFragment : Fragment() {
             .setNegativeButton(getString(R.string.deny_from_dialog)) { dialog, _ ->
                 dialog.dismiss()
             }.setPositiveButton(getString(R.string.accept_from_dialog)) { d, _ ->
+                requestContactsPermission()
                 d.dismiss()
             }.show()
     }

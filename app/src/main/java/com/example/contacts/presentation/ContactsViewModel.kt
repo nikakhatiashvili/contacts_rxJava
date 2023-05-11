@@ -41,14 +41,11 @@ class ContactsViewModel @Inject constructor(
         searchJob = viewModelScope.launch(Dispatchers.IO) {
             delay(400)
             when (val res = contactsRepository.getContacts()) {
-                is Result.Success -> _contactsState.emit(
-                    ContactsUi.SuccessUi(
-                        filterByName(
-                            res.data,
-                            str
-                        )
+                is Result.Success -> {
+                    _contactsState.emit(
+                        ContactsUi.SuccessUi(filterContacts(res.data, str))
                     )
-                )
+                }
 
                 is Result.Error -> _contactsState.emit(ContactsUi.ErrorUi(res.message))
                 is Result.Exception -> _contactsState.emit(ContactsUi.ErrorUi(res.e.message))
@@ -56,8 +53,12 @@ class ContactsViewModel @Inject constructor(
         }
     }
 
-    private fun filterByName(data: List<Contact>, str: String): List<Contact> {
-        return data.filter { it.name.contains(str, ignoreCase = true) }
+    private fun filterContacts(data: List<Contact>, str: String): List<Contact> {
+        if (!str.contains("[0-9]".toRegex())){
+            return data.filter { it.name.contains(str, ignoreCase = true) }
+        }else
+            return data.filter { it ->
+                it.number.replace("\\s".toRegex(), "").contains(str,ignoreCase = true)
+            }
     }
-
 }

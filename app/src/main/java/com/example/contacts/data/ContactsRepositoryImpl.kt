@@ -42,6 +42,8 @@ class ContactsRepositoryImpl @Inject constructor(
                 contacts.add(Contact(id, name, number))
             }
         }
+        contacts.forEach { it.filterNumber() }
+        contacts.sortBy { it.name }
         return contacts
     }
 }
