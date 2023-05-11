@@ -17,17 +17,17 @@ import javax.inject.Inject
 @HiltViewModel
 class ContactsViewModel @Inject constructor(
     private val contactsRepository: ContactsRepository
-): ViewModel() {
+) : ViewModel() {
 
     private val _contactsState = MutableStateFlow<ContactsUi>(ContactsUi.Empty)
     val contactsState = _contactsState.asStateFlow()
 
     private var searchJob: Job? = null
 
-    fun getContacts(){
+    fun getContacts() {
         viewModelScope.launch(Dispatchers.IO) {
             _contactsState.emit(ContactsUi.Loading())
-            when(val res = contactsRepository.getContacts()){
+            when (val res = contactsRepository.getContacts()) {
                 is Result.Success -> _contactsState.emit(ContactsUi.SuccessUi(res.data))
                 is Result.Error -> _contactsState.emit(ContactsUi.ErrorUi(res.message))
                 is Result.Exception -> _contactsState.emit(ContactsUi.ErrorUi(res.e.message))
@@ -40,16 +40,24 @@ class ContactsViewModel @Inject constructor(
         searchJob?.cancel()
         searchJob = viewModelScope.launch(Dispatchers.IO) {
             delay(400)
-            when(val res = contactsRepository.getContacts()){
-                is Result.Success -> _contactsState.emit(ContactsUi.SuccessUi(filterByName(res.data,str)))
+            when (val res = contactsRepository.getContacts()) {
+                is Result.Success -> _contactsState.emit(
+                    ContactsUi.SuccessUi(
+                        filterByName(
+                            res.data,
+                            str
+                        )
+                    )
+                )
+
                 is Result.Error -> _contactsState.emit(ContactsUi.ErrorUi(res.message))
                 is Result.Exception -> _contactsState.emit(ContactsUi.ErrorUi(res.e.message))
             }
         }
     }
 
-    private fun filterByName(data:List<Contact>, str: String):List<Contact>{
-        return data.filter { it.name.contains(str,ignoreCase = true) }
+    private fun filterByName(data: List<Contact>, str: String): List<Contact> {
+        return data.filter { it.name.contains(str, ignoreCase = true) }
     }
 
 }

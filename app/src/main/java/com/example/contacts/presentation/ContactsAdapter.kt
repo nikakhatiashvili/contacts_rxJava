@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.contacts.databinding.ContactItemBinding
 import com.example.contacts.domain.Contact
 
-class ContactsAdapter:RecyclerView.Adapter<ContactsAdapter.ViewHolder>() {
+class ContactsAdapter : RecyclerView.Adapter<ContactsAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             ContactItemBinding.inflate(

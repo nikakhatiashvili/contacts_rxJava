@@ -1,13 +1,8 @@
 package com.example.contacts.presentation
 
 import android.Manifest
-import android.annotation.SuppressLint
-import android.content.ContentResolver
 import android.content.pm.PackageManager
-import android.database.Cursor
 import android.os.Bundle
-import android.provider.ContactsContract
-import android.util.Log.d
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +17,6 @@ import com.example.contacts.R
 import com.example.contacts.databinding.FragmentContactsBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 
@@ -39,7 +33,7 @@ class ContactsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentContactsBinding.inflate(inflater, container, false)
         val root: View = binding.root
         bind()
@@ -58,9 +52,9 @@ class ContactsFragment : Fragment() {
             }
         }
 
-        viewLifecycleOwner.lifecycleScope.launch{
-            viewModel.contactsState.collect{
-                it.apply(adapter,binding.loadingProgressBar)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.contactsState.collect {
+                it.apply(adapter, binding.loadingProgressBar)
             }
         }
     }
@@ -83,8 +77,9 @@ class ContactsFragment : Fragment() {
     private val contactsPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) {
-        if (it) { viewModel.getContacts() }
-        else {
+        if (it) {
+            viewModel.getContacts()
+        } else {
             if (shouldShowRequestPermissionRationale(
                     Manifest.permission.READ_CONTACTS
                 )

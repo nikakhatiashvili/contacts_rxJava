@@ -7,11 +7,10 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 
-
 @Module
 @InstallIn(SingletonComponent::class)
 interface ContactsModule {
 
     @Binds
-    fun bindsContactsRepository(contactsRepositoryImpl: ContactsRepositoryImpl):ContactsRepository
+    fun bindsContactsRepository(contactsRepositoryImpl: ContactsRepositoryImpl): ContactsRepository
 }

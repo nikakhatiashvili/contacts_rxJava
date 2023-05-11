@@ -27,8 +27,9 @@ interface ContactsUi {
 
     class ErrorUi(private val message: String?) : ContactsUi {
         override fun apply(adapter: ContactsAdapter, progressBar: View) {
-            Toast.makeText(progressBar.context,message,Toast.LENGTH_SHORT).show()
+            Toast.makeText(progressBar.context, message, Toast.LENGTH_SHORT).show()
             progressBar.visibility = View.GONE
         }
     }
+
 }
