@@ -1,6 +1,6 @@
 package com.example.contacts.domain
 
-import com.example.contacts.Result
+import com.example.contacts.common.Result
 
 interface ContactsRepository {
 

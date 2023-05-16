@@ -9,8 +9,9 @@ import android.net.Uri
 import android.os.Build
 import android.provider.ContactsContract
 import android.provider.MediaStore
-import androidx.annotation.RequiresApi
-import com.example.contacts.Result
+import com.example.contacts.R
+import com.example.contacts.common.ResourceManager
+import com.example.contacts.common.Result
 import com.example.contacts.domain.AddContactRepository
 import com.example.contacts.presentation.common.isValidEmail
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -19,7 +20,8 @@ import javax.inject.Inject
 
 
 class AddContactRepositoryImpl @Inject constructor(
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context,
+    private val resourceManager: ResourceManager
 ) : AddContactRepository {
 
     override suspend fun addContact(
@@ -30,14 +32,15 @@ class AddContactRepositoryImpl @Inject constructor(
         image: Uri?
     ): Result<String> {
         if (name.isEmpty() || number.isEmpty() || email.isEmpty()) {
-            return Result.Error("Fill all the fields")
+            return Result.Error(resourceManager.provide(R.string.fill_fields))
         }
         if (!email.isValidEmail()) {
-            return Result.Error("Email is not valid")
+            return Result.Error(resourceManager.provide(R.string.invalid_email))
         }
         return try {
             val data = saveContact(name, lastName, number, email, image)
-            if (data) Result.Success("succesfully added ") else Result.Error("sad")
+            if (data) Result.Success(resourceManager.provide(R.string.success))
+            else Result.Error(resourceManager.provide(R.string.error))
         } catch (e: Exception) {
             Result.Exception(e)
         }
@@ -58,8 +61,6 @@ class AddContactRepositoryImpl @Inject constructor(
            false
         }
     }
-
-    @RequiresApi(Build.VERSION_CODES.P)
     private fun insertContact(
         contactAdder: ContentResolver,
         firstName: String?,
@@ -123,11 +124,10 @@ class AddContactRepositoryImpl @Inject constructor(
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.P)
+
     private fun imageUriToBytes(
         image:Uri?
     ):ByteArray?{
-
         val bitmap:Bitmap
         val baos:ByteArrayOutputStream?
         val cr: ContentResolver = context.contentResolver
@@ -135,10 +135,10 @@ class AddContactRepositoryImpl @Inject constructor(
             if (Build.VERSION.SDK_INT > 28){
                 bitmap = MediaStore.Images.Media.getBitmap(cr, image)
             }
-            else{
+            else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P){
                 val source = ImageDecoder.createSource(cr, image!!)
                 bitmap = ImageDecoder.decodeBitmap(source)
-            }
+            }else return null
 
             baos = ByteArrayOutputStream()
             bitmap.compress(Bitmap.CompressFormat.JPEG,50,baos)

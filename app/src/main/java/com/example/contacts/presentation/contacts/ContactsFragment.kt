@@ -118,7 +118,7 @@ class ContactsFragment : Fragment() {
             Snackbar.LENGTH_SHORT
         ).setAction(getString(R.string.settings)) {
             val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-            val uri = Uri.fromParts("package", activity!!.packageName, null)
+            val uri = Uri.fromParts(getString(R.string.package_text), requireActivity().packageName, null)
             intent.data = uri
             startActivity(intent)
         }.show()
@@ -130,6 +130,7 @@ class ContactsFragment : Fragment() {
         )
             .setMessage(getString(R.string.permission_req_dialog))
             .setNegativeButton(getString(R.string.deny_from_dialog)) { dialog, _ ->
+                showPermissionNeedsToBeGrantedSnackbar()
                 dialog.dismiss()
             }.setPositiveButton(getString(R.string.accept_from_dialog)) { d, _ ->
                 requestContactsPermission()

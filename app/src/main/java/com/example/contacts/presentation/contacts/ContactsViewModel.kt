@@ -2,7 +2,7 @@ package com.example.contacts.presentation.contacts
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.contacts.Result
+import com.example.contacts.common.Result
 import com.example.contacts.domain.Contact
 import com.example.contacts.domain.ContactsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel

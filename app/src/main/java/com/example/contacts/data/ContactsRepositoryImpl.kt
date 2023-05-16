@@ -1,13 +1,11 @@
 package com.example.contacts.data
 
 import android.content.ContentResolver
-import android.content.ContentValues
 import android.content.Context
 import android.provider.ContactsContract
-import com.example.contacts.Result
+import com.example.contacts.common.Result
 import com.example.contacts.domain.Contact
 import com.example.contacts.domain.ContactsRepository
-import com.example.contacts.presentation.common.isValidEmail
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 

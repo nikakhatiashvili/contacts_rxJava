@@ -3,7 +3,7 @@ package com.example.contacts.presentation.new_contact
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.contacts.Result
+import com.example.contacts.common.Result
 import com.example.contacts.domain.AddContactRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

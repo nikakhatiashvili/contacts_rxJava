@@ -1,7 +1,7 @@
 package com.example.contacts.domain
 
 import android.net.Uri
-import com.example.contacts.Result
+import com.example.contacts.common.Result
 
 interface AddContactRepository {
 
