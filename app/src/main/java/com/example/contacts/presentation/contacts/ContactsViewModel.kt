@@ -1,4 +1,4 @@
-package com.example.contacts.presentation
+package com.example.contacts.presentation.contacts
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

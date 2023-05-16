@@ -8,8 +8,23 @@
 
     <fragment
         android:id="@+id/contactsFragment"
-        android:name="com.example.contacts.presentation.ContactsFragment"
+        android:name="com.example.contacts.presentation.contacts.ContactsFragment"
         android:label="fragment_contact"
-        tools:layout="@layout/fragment_contacts" />
+        tools:layout="@layout/fragment_contacts" >
+        <action
+            android:id="@+id/action_contactsFragment_to_newContactFragment"
+            app:destination="@id/newContactFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newContactFragment"
+        android:name="com.example.contacts.presentation.new_contact.NewContactFragment"
+        android:label="fragment_new_contact"
+        tools:layout="@layout/fragment_new_contact" >
+        <action
+            android:id="@+id/action_newContactFragment_to_contactsFragment"
+            app:destination="@id/contactsFragment"
+            app:popUpTo="@id/mobile_navigation"
+            app:popUpToInclusive="true" />
+    </fragment>
 
 </navigation>

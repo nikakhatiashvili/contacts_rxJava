@@ -1,6 +1,8 @@
 package com.example.contacts.di
 
+import com.example.contacts.data.AddContactRepositoryImpl
 import com.example.contacts.data.ContactsRepositoryImpl
+import com.example.contacts.domain.AddContactRepository
 import com.example.contacts.domain.ContactsRepository
 import dagger.Binds
 import dagger.Module
@@ -13,4 +15,7 @@ interface ContactsModule {
 
     @Binds
     fun bindsContactsRepository(contactsRepositoryImpl: ContactsRepositoryImpl): ContactsRepository
+
+    @Binds
+    fun bindsAddContactRepository(addContactRepositoryImpl: AddContactRepositoryImpl):AddContactRepository
 }

@@ -1,4 +1,4 @@
-package com.example.contacts.presentation.adapter
+package com.example.contacts.presentation.contacts.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,7 +9,9 @@ import com.example.contacts.databinding.GroupItemBinding
 import com.example.contacts.domain.Contact
 
 
-class ContactsAdapter:ListAdapter<ContactsAdapter.ListItem, RecyclerView.ViewHolder>(ContactsItemDiffUtilCallBack()){
+class ContactsAdapter:ListAdapter<ContactsAdapter.ListItem, RecyclerView.ViewHolder>(
+    ContactsItemDiffUtilCallBack()
+){
 
     companion object {
         const val GROUP_VIEW_TYPE = 0

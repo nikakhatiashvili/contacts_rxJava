@@ -13,4 +13,14 @@
     <string name="permission_message_from_snackbar">change permission in settings to access your contacts</string>
     <string name="settings">Settings</string>
     <string name="Package">Package</string>
+    <string name="search_by_name_or_number">search by Name or Number</string>
+    <string name="add">add</string>
+    <string name="name">name</string>
+    <string name="add_picture">Add picture</string>
+    <string name="save">save</string>
+    <string name="last_name">Last name</string>
+    <string name="first_name">First name</string>
+    <string name="phone">Phone</string>
+    <string name="email">Email</string>
+    <string name="invalid_email">invalid email</string>
 </resources>

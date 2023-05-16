@@ -1,4 +1,4 @@
-package com.example.contacts.presentation.adapter
+package com.example.contacts.presentation.contacts.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 
