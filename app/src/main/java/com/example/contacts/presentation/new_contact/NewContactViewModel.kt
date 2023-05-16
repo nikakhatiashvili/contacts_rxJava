@@ -23,7 +23,7 @@ class NewContactViewModel @Inject constructor(
     fun addContact(name: String, lastName: String, number: String, email: String, image: Uri?) {
         viewModelScope.launch(Dispatchers.IO) {
             _contactsState.emit(AddContactUi.Loading())
-            when(val res = addContactRepository.addContact(name,lastName,number,email,image)){
+            when (val res = addContactRepository.addContact(name, lastName, number, email, image)) {
                 is Result.Success -> _contactsState.emit(AddContactUi.SuccessUi(res.data))
                 is Result.Error -> _contactsState.emit(AddContactUi.ErrorUi(res.message))
                 is Result.Exception -> _contactsState.emit(AddContactUi.ErrorUi(res.e.message))

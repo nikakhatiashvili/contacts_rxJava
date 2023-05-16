@@ -17,5 +17,5 @@ interface ContactsModule {
     fun bindsContactsRepository(contactsRepositoryImpl: ContactsRepositoryImpl): ContactsRepository
 
     @Binds
-    fun bindsAddContactRepository(addContactRepositoryImpl: AddContactRepositoryImpl):AddContactRepository
+    fun bindsAddContactRepository(addContactRepositoryImpl: AddContactRepositoryImpl): AddContactRepository
 }

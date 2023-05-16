@@ -31,7 +31,7 @@ class NewContactFragment : Fragment() {
 
     private var _binding: FragmentNewContactBinding? = null
     private val binding get() = _binding!!
-    private  var image: Uri? = null
+    private var image: Uri? = null
 
     private val viewModel: NewContactViewModel by viewModels()
 
@@ -78,7 +78,7 @@ class NewContactFragment : Fragment() {
         }
     }
 
-    private fun listeners(){
+    private fun listeners() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.contactsState.collect {
                 it.apply(findNavController(), binding.loadingProgressBar)
@@ -137,12 +137,12 @@ class NewContactFragment : Fragment() {
             ) == PackageManager.PERMISSION_GRANTED
         ) {
             storageOpener.launch(getString(R.string.image_open))
-        } else if(ActivityCompat.checkSelfPermission(
+        } else if (ActivityCompat.checkSelfPermission(
                 requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE
-            ) == PackageManager.PERMISSION_DENIED) {
+            ) == PackageManager.PERMISSION_DENIED
+        ) {
             showPermissionNeedsToBeGrantedSnackbar()
-        }
-            else {
+        } else {
             requestStoragePermission()
         }
     }
@@ -154,7 +154,8 @@ class NewContactFragment : Fragment() {
             Snackbar.LENGTH_SHORT
         ).setAction(getString(R.string.settings)) {
             val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-            val uri = Uri.fromParts(getString(R.string.package_text), requireActivity().packageName, null)
+            val uri =
+                Uri.fromParts(getString(R.string.package_text), requireActivity().packageName, null)
             intent.data = uri
             startActivity(intent)
         }.show()

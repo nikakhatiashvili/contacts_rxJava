@@ -42,9 +42,7 @@ class ContactsRepositoryImpl @Inject constructor(
         contacts.forEach {
             it.filterNumber()
         }
-        contacts.sortBy { it.name.first().toUpperCase()}
+        contacts.sortBy { it.name.first().toUpperCase() }
         return contacts
     }
-
-
 }

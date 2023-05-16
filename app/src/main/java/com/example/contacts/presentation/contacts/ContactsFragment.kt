@@ -25,7 +25,6 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-
 @AndroidEntryPoint
 class ContactsFragment : Fragment() {
 
@@ -118,7 +117,8 @@ class ContactsFragment : Fragment() {
             Snackbar.LENGTH_SHORT
         ).setAction(getString(R.string.settings)) {
             val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-            val uri = Uri.fromParts(getString(R.string.package_text), requireActivity().packageName, null)
+            val uri =
+                Uri.fromParts(getString(R.string.package_text), requireActivity().packageName, null)
             intent.data = uri
             startActivity(intent)
         }.show()

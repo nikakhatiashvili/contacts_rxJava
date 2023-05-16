@@ -5,5 +5,11 @@ import com.example.contacts.common.Result
 
 interface AddContactRepository {
 
-    suspend fun addContact(name:String,lastName:String, number:String,email:String,image: Uri?): Result<String>
+    suspend fun addContact(
+        name: String,
+        lastName: String,
+        number: String,
+        email: String,
+        image: Uri?
+    ): Result<String>
 }

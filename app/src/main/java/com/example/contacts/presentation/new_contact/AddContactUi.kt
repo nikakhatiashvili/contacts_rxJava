@@ -4,12 +4,10 @@ import android.view.View
 import android.widget.Toast
 import androidx.navigation.NavController
 import com.example.contacts.R
-import com.example.contacts.domain.Contact
-import com.example.contacts.presentation.contacts.adapter.ContactsAdapter
 
 interface AddContactUi {
 
-    fun apply(navController: NavController,progressBar: View)
+    fun apply(navController: NavController, progressBar: View)
 
     object Empty : AddContactUi {
         override fun apply(navController: NavController, progressBar: View) = Unit

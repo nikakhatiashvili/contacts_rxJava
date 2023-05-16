@@ -9,14 +9,15 @@ import com.example.contacts.databinding.GroupItemBinding
 import com.example.contacts.domain.Contact
 
 
-class ContactsAdapter:ListAdapter<ContactsAdapter.ListItem, RecyclerView.ViewHolder>(
+class ContactsAdapter : ListAdapter<ContactsAdapter.ListItem, RecyclerView.ViewHolder>(
     ContactsItemDiffUtilCallBack()
-){
+) {
 
     companion object {
         const val GROUP_VIEW_TYPE = 0
         const val CONTACTS_VIEW_TYPE = 1
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             GROUP_VIEW_TYPE -> {
@@ -26,7 +27,8 @@ class ContactsAdapter:ListAdapter<ContactsAdapter.ListItem, RecyclerView.ViewHol
             }
 
             CONTACTS_VIEW_TYPE -> {
-                val view = ContactItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                val view =
+                    ContactItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 ContactsViewHolder(view)
             }
 

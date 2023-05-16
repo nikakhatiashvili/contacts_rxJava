@@ -46,7 +46,6 @@ class AddContactRepositoryImpl @Inject constructor(
         }
     }
 
-
     private fun saveContact(
         name: String,
         lastName: String,
@@ -56,11 +55,12 @@ class AddContactRepositoryImpl @Inject constructor(
     ): Boolean {
         val cr: ContentResolver = context.contentResolver
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            insertContact(cr,name,lastName,number,email,image)
+            insertContact(cr, name, lastName, number, email, image)
         } else {
-           false
+            false
         }
     }
+
     private fun insertContact(
         contactAdder: ContentResolver,
         firstName: String?,
@@ -68,86 +68,112 @@ class AddContactRepositoryImpl @Inject constructor(
         mobileNumber: String?,
         email: String,
         image: Uri?,
-        ): Boolean {
+    ): Boolean {
         val ops = ArrayList<ContentProviderOperation>()
 
         val rawContactId = ops.size
-        ops.add(ContentProviderOperation.newInsert(
-            ContactsContract.RawContacts.CONTENT_URI)
-            .withValue(ContactsContract.RawContacts.ACCOUNT_TYPE, null)
-            .withValue(ContactsContract.RawContacts.ACCOUNT_NAME, null)
-            .build()
-        )
-
         ops.add(
-            ContentProviderOperation
-                .newInsert(ContactsContract.Data.CONTENT_URI)
-                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, rawContactId)
-                .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
-                .withValue(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME, firstName?.trim())
-                .withValue(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME, lastName?.trim())
+            ContentProviderOperation.newInsert(
+                ContactsContract.RawContacts.CONTENT_URI
+            )
+                .withValue(ContactsContract.RawContacts.ACCOUNT_TYPE, null)
+                .withValue(ContactsContract.RawContacts.ACCOUNT_NAME, null)
                 .build()
         )
 
-        ops.add(ContentProviderOperation.
-        newInsert(ContactsContract.Data.CONTENT_URI)
-            .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
-            .withValue(ContactsContract.Data.MIMETYPE,
-                ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
-            .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, mobileNumber)
-            .withValue(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE)
-            .build())
+        ops.add(
+            ContentProviderOperation
+                .newInsert(ContactsContract.Data.CONTENT_URI)
+                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, rawContactId)
+                .withValue(
+                    ContactsContract.Data.MIMETYPE,
+                    ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE
+                )
+                .withValue(
+                    ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME,
+                    firstName?.trim()
+                )
+                .withValue(
+                    ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME,
+                    lastName?.trim()
+                )
+                .build()
+        )
+
+        ops.add(
+            ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+                .withValue(
+                    ContactsContract.Data.MIMETYPE,
+                    ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE
+                )
+                .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, mobileNumber)
+                .withValue(
+                    ContactsContract.CommonDataKinds.Phone.TYPE,
+                    ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE
+                )
+                .build()
+        )
 
         ops.add(
             ContentProviderOperation
                 .newInsert(ContactsContract.Data.CONTENT_URI)
                 .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, rawContactId)
-                .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE)
+                .withValue(
+                    ContactsContract.Data.MIMETYPE,
+                    ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE
+                )
                 .withValue(ContactsContract.CommonDataKinds.Email.DATA, email.trim())
-                .withValue(ContactsContract.CommonDataKinds.Email.TYPE, ContactsContract.CommonDataKinds.Email.TYPE_WORK)
+                .withValue(
+                    ContactsContract.CommonDataKinds.Email.TYPE,
+                    ContactsContract.CommonDataKinds.Email.TYPE_WORK
+                )
                 .build()
         )
 
         val imageBytes = imageUriToBytes(image)
 
-        if (imageBytes != null){
-            ops.add(ContentProviderOperation.newInsert((ContactsContract.Data.CONTENT_URI))
-                .withValueBackReference(ContactsContract.RawContacts.Data.RAW_CONTACT_ID, rawContactId)
-                .withValue(ContactsContract.RawContacts.Data.MIMETYPE,ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE)
-                .withValue(ContactsContract.CommonDataKinds.Photo.PHOTO, imageBytes).build())
+        if (imageBytes != null) {
+            ops.add(
+                ContentProviderOperation.newInsert((ContactsContract.Data.CONTENT_URI))
+                    .withValueBackReference(
+                        ContactsContract.RawContacts.Data.RAW_CONTACT_ID,
+                        rawContactId
+                    )
+                    .withValue(
+                        ContactsContract.RawContacts.Data.MIMETYPE,
+                        ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE
+                    )
+                    .withValue(ContactsContract.CommonDataKinds.Photo.PHOTO, imageBytes).build()
+            )
         }
         return try {
-            contactAdder.applyBatch(ContactsContract.AUTHORITY,ops)
+            contactAdder.applyBatch(ContactsContract.AUTHORITY, ops)
             true
-        }catch (e:Exception){
+        } catch (e: Exception) {
             false
         }
     }
 
-
     private fun imageUriToBytes(
-        image:Uri?
-    ):ByteArray?{
-        val bitmap:Bitmap
-        val baos:ByteArrayOutputStream?
+        image: Uri?
+    ): ByteArray? {
+        val bitmap: Bitmap
+        val baos: ByteArrayOutputStream?
         val cr: ContentResolver = context.contentResolver
         return try {
-            if (Build.VERSION.SDK_INT > 28){
+            if (Build.VERSION.SDK_INT > 28) {
                 bitmap = MediaStore.Images.Media.getBitmap(cr, image)
-            }
-            else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P){
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 val source = ImageDecoder.createSource(cr, image!!)
                 bitmap = ImageDecoder.decodeBitmap(source)
-            }else return null
+            } else return null
 
             baos = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.JPEG,50,baos)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos)
             baos.toByteArray()
-        }catch (e:java.lang.Exception){
+        } catch (e: java.lang.Exception) {
             null
         }
     }
-
-
-
 }
