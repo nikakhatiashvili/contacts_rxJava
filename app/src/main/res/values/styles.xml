@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ShapeAppearanceOverlay.App.circleImageView" parent="">
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="Widget.Contacts.ButtonCircle" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="iconSize">32dp</item>
+        <item name="iconPadding">0dp</item>
+        <item name="iconGravity">textStart</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:minWidth">56dp</item>
+        <item name="android:minHeight">56dp</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="iconTint">?attr/colorOnSecondary</item>
+        <item name="backgroundTint">?attr/colorPrimary</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Contacts.Circle</item>
+    </style>
+
+    <style name="Widget.Contacts.ButtonCircle.Secondary">
+        <item name="iconTint">@color/black</item>
+        <item name="iconSize">16dp</item>
+        <item name="backgroundTint">@color/transparent</item>
+    </style>
+</resources>

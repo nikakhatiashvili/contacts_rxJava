@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".presentation.new_contact.NewContactFragment">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnClose"
+            android:layout_gravity="start"
+            style="@style/Widget.Contacts.ButtonCircle.Secondary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/ic_arrow_left" />
+
+        <TextView
+            android:id="@+id/tvPageName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/add_contact"
+            android:textSize="21sp"
+            android:textStyle="bold"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSave"
+            android:layout_gravity="end"
+            android:layout_marginEnd="@dimen/spacing_16dp"
+            android:text="@string/save"
+            android:textSize="19sp"
+            android:backgroundTint="@color/et_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imageShape"
+        android:layout_width="@dimen/spacing_124dp"
+        android:layout_height="@dimen/spacing_124dp"
+        android:adjustViewBounds="true"
+        android:layout_marginTop="@dimen/spacing_10dp"
+        android:background="@color/gray"
+        android:scaleType="centerInside"
+        android:src="@drawable/baseline_add_photo_alternate_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.circleImageView" />
+
+    <TextView
+        android:id="@+id/add_picture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_16dp"
+        android:text="@string/add_picture"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/imageShape"
+        app:layout_constraintStart_toStartOf="@+id/imageShape"
+        app:layout_constraintTop_toBottomOf="@+id/imageShape" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_12dp"
+        android:src="@drawable/baseline_person_24"
+        app:layout_constraintBottom_toBottomOf="@+id/etName"
+        app:layout_constraintEnd_toStartOf="@+id/etName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/etName" />
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/etName"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacing_40dp"
+        android:layout_marginTop="@dimen/spacing_16dp"
+        android:hint="@string/first_name"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:textColorHint="@color/gray"
+        app:errorEnabled="true"
+        app:boxCornerRadiusBottomEnd="@dimen/spacing_24dp"
+        app:boxCornerRadiusBottomStart="@dimen/spacing_24dp"
+        app:boxCornerRadiusTopEnd="@dimen/spacing_24dp"
+        app:boxCornerRadiusTopStart="@dimen/spacing_24dp"
+        app:boxStrokeColor="@color/et_color"
+        app:hintTextAppearance="@style/TextAppearance.AppCompat.Caption"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_picture">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/insideEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <ProgressBar
+        android:id="@+id/loadingProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/etLastName"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacing_40dp"
+        android:hint="@string/last_name"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:textColorHint="@color/gray"
+        app:boxCornerRadiusBottomEnd="@dimen/spacing_24dp"
+        app:boxCornerRadiusBottomStart="@dimen/spacing_24dp"
+        app:boxCornerRadiusTopEnd="@dimen/spacing_24dp"
+        app:boxCornerRadiusTopStart="@dimen/spacing_24dp"
+        app:boxStrokeColor="@color/et_color"
+        app:hintTextAppearance="@style/TextAppearance.AppCompat.Caption"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etName">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_local_phone_24"
+        android:layout_marginBottom="@dimen/spacing_12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/etNumber"
+        app:layout_constraintEnd_toStartOf="@+id/etNumber"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/etNumber" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/etNumber"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacing_40dp"
+        android:layout_marginTop="@dimen/spacing_16dp"
+        android:hint="@string/phone"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:textColorHint="@color/gray"
+        app:errorEnabled="true"
+        app:boxCornerRadiusBottomEnd="@dimen/spacing_24dp"
+        app:boxCornerRadiusBottomStart="@dimen/spacing_24dp"
+        app:boxCornerRadiusTopEnd="@dimen/spacing_24dp"
+        app:boxCornerRadiusTopStart="@dimen/spacing_24dp"
+        app:boxStrokeColor="@color/et_color"
+        app:hintTextAppearance="@style/TextAppearance.AppCompat.Caption"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etLastName">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_12dp"
+        android:src="@drawable/baseline_email_24"
+        app:layout_constraintBottom_toBottomOf="@+id/etEmail"
+        app:layout_constraintEnd_toStartOf="@+id/etEmail"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/etEmail" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/etEmail"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacing_40dp"
+        android:hint="@string/email"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:textColorHint="@color/gray"
+        app:boxCornerRadiusBottomEnd="@dimen/spacing_24dp"
+        app:boxCornerRadiusBottomStart="@dimen/spacing_24dp"
+        app:boxCornerRadiusTopEnd="@dimen/spacing_24dp"
+        app:boxCornerRadiusTopStart="@dimen/spacing_24dp"
+        app:errorEnabled="true"
+        app:boxStrokeColor="@color/et_color"
+        app:hintTextAppearance="@style/TextAppearance.AppCompat.Caption"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etNumber">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:inputType="textEmailAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

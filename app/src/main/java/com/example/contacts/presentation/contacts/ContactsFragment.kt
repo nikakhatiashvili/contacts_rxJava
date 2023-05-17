@@ -1,4 +1,4 @@
-package com.example.contacts.presentation
+package com.example.contacts.presentation.contacts
 
 import android.Manifest
 import android.content.Intent
@@ -15,15 +15,15 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.contacts.R
 import com.example.contacts.databinding.FragmentContactsBinding
-import com.example.contacts.presentation.adapter.ContactsAdapter
+import com.example.contacts.presentation.contacts.adapter.ContactsAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-
 
 @AndroidEntryPoint
 class ContactsFragment : Fragment() {
@@ -62,11 +62,17 @@ class ContactsFragment : Fragment() {
                 it.apply(adapter, binding.loadingProgressBar)
             }
         }
+        binding.fab.setOnClickListener {
+            findNavController().navigate(R.id.action_contactsFragment_to_newContactFragment)
+        }
     }
 
     private fun getContacts() {
         if (ActivityCompat.checkSelfPermission(
                 requireContext(), Manifest.permission.READ_CONTACTS
+            ) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.WRITE_CONTACTS
             ) == PackageManager.PERMISSION_GRANTED
         ) {
             viewModel.getContacts()
@@ -76,21 +82,29 @@ class ContactsFragment : Fragment() {
     }
 
     private fun requestContactsPermission() {
-        contactsPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
+        contactsPermissionLauncher.launch(
+            arrayOf(
+                Manifest.permission.READ_CONTACTS,
+                Manifest.permission.WRITE_CONTACTS
+            )
+        )
     }
 
     private val contactsPermissionLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) {
-        if (it) {
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        if (permissions.all { it.value }) {
             viewModel.getContacts()
         } else {
             if (shouldShowRequestPermissionRationale(
                     Manifest.permission.READ_CONTACTS
                 )
+                || shouldShowRequestPermissionRationale(
+                    Manifest.permission.WRITE_CONTACTS
+                )
             ) {
                 showPermissionNeedsToBeGrantedDialog()
-            }else{
+            } else {
                 showPermissionNeedsToBeGrantedSnackbar()
             }
         }
@@ -103,7 +117,8 @@ class ContactsFragment : Fragment() {
             Snackbar.LENGTH_SHORT
         ).setAction(getString(R.string.settings)) {
             val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-            val uri = Uri.fromParts("package", activity!!.packageName, null)
+            val uri =
+                Uri.fromParts(getString(R.string.package_text), requireActivity().packageName, null)
             intent.data = uri
             startActivity(intent)
         }.show()
@@ -115,6 +130,7 @@ class ContactsFragment : Fragment() {
         )
             .setMessage(getString(R.string.permission_req_dialog))
             .setNegativeButton(getString(R.string.deny_from_dialog)) { dialog, _ ->
+                showPermissionNeedsToBeGrantedSnackbar()
                 dialog.dismiss()
             }.setPositiveButton(getString(R.string.accept_from_dialog)) { d, _ ->
                 requestContactsPermission()
