@@ -24,6 +24,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ContactsFragment : Fragment() {
@@ -31,7 +32,7 @@ class ContactsFragment : Fragment() {
     private var _binding: FragmentContactsBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: ContactsViewModel by viewModels()
+    private val viewModel:ContactsViewModel by viewModels()
 
     private lateinit var adapter: ContactsAdapter
 

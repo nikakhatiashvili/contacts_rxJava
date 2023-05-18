@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ContactsViewModel @Inject constructor(
-    private val getContactsUseCase: GetContactsUseCase
+    private val getContactsUseCase: GetContactsUseCase,
 ) : ViewModel() {
 
     private val _contactsState = MutableStateFlow<ContactsUi>(ContactsUi.Empty)
@@ -45,6 +45,7 @@ class ContactsViewModel @Inject constructor(
                         ContactsUi.SuccessUi(res.data)
                     )
                 }
+
                 is Result.Error -> _contactsState.emit(ContactsUi.ErrorUi(res.message))
                 is Result.Exception -> _contactsState.emit(ContactsUi.ErrorUi(res.e.message))
             }
