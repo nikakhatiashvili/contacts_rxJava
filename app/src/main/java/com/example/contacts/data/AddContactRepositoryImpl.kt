@@ -12,7 +12,7 @@ import android.provider.MediaStore
 import com.example.contacts.R
 import com.example.contacts.common.ResourceManager
 import com.example.contacts.common.Result
-import com.example.contacts.domain.AddContactRepository
+import com.example.contacts.domain.repository.AddContactRepository
 import com.example.contacts.presentation.common.isValidEmail
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.ByteArrayOutputStream

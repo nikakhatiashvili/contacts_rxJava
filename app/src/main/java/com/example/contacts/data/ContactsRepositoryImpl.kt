@@ -4,8 +4,8 @@ import android.content.ContentResolver
 import android.content.Context
 import android.provider.ContactsContract
 import com.example.contacts.common.Result
-import com.example.contacts.domain.Contact
-import com.example.contacts.domain.ContactsRepository
+import com.example.contacts.domain.model.Contact
+import com.example.contacts.domain.repository.ContactsRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
@@ -39,10 +39,6 @@ class ContactsRepositoryImpl @Inject constructor(
                 contacts.add(Contact(id, name, number))
             }
         }
-        contacts.forEach {
-            it.filterNumber()
-        }
-        contacts.sortBy { it.name.first().toUpperCase() }
         return contacts
     }
 }
