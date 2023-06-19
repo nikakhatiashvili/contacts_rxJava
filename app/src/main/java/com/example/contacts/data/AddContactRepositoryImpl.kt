@@ -4,9 +4,8 @@ import android.net.Uri
 import com.example.contacts.common.Result
 import com.example.contacts.domain.repository.AddContactRepository
 import com.example.contacts.domain.repository.source.AddContactDataSource
-import javax.inject.Inject
 
-class AddContactRepositoryImpl @Inject constructor(
+class AddContactRepositoryImpl(
     private val addContactDataSource: AddContactDataSource
 ) : AddContactRepository {
 
@@ -22,7 +21,7 @@ class AddContactRepositoryImpl @Inject constructor(
             if (data) Result.Success("successfully added contact")
             else Result.Error("something went wrong")
         } catch (e: Exception) {
-            Result.Exception(e)
+            Result.Exception(e.message.toString())
         }
     }
 }

@@ -4,9 +4,8 @@ import android.net.Uri
 import com.example.contacts.common.Result
 import com.example.contacts.domain.repository.AddContactRepository
 import com.example.contacts.presentation.common.isValidEmail
-import javax.inject.Inject
 
-class AddContactUseCase @Inject constructor(
+class AddContactUseCase (
     private val addContactRepository: AddContactRepository
 ) {
     suspend operator fun invoke(

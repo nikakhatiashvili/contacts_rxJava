@@ -21,6 +21,7 @@ interface AddContactUi {
 
     class SuccessUi(private val message: String?) : AddContactUi {
         override fun apply(navController: NavController, progressBar: View) {
+
             Toast.makeText(progressBar.context, message, Toast.LENGTH_SHORT).show()
             progressBar.visibility = View.GONE
             navController.navigate(R.id.action_newContactFragment_to_contactsFragment)

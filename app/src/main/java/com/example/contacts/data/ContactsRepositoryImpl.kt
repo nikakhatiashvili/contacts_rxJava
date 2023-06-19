@@ -4,9 +4,8 @@ import com.example.contacts.common.Result
 import com.example.contacts.domain.model.Contact
 import com.example.contacts.domain.repository.ContactsRepository
 import com.example.contacts.domain.repository.source.ContactsDataSource
-import javax.inject.Inject
 
-class ContactsRepositoryImpl @Inject constructor(
+class ContactsRepositoryImpl(
     private val contactsDataSource: ContactsDataSource
 ) : ContactsRepository {
     override suspend fun getContacts(): Result<List<Contact>> {
@@ -14,7 +13,7 @@ class ContactsRepositoryImpl @Inject constructor(
             val data = contactsDataSource.getContacts()
             Result.Success(data)
         } catch (e: Exception) {
-            Result.Exception(e)
+            Result.Exception(e.message.toString())
         }
     }
 }

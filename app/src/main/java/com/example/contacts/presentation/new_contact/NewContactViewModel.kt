@@ -5,15 +5,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.contacts.common.Result
 import com.example.contacts.domain.usecase.AddContactUseCase
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class NewContactViewModel @Inject constructor(
+class NewContactViewModel (
     private val addContactUseCase: AddContactUseCase
 ) : ViewModel() {
 
@@ -26,7 +23,7 @@ class NewContactViewModel @Inject constructor(
             when (val res = addContactUseCase.invoke(name, lastName, number, email, image)) {
                 is Result.Success -> _contactsState.emit(AddContactUi.SuccessUi(res.data))
                 is Result.Error -> _contactsState.emit(AddContactUi.ErrorUi(res.message))
-                is Result.Exception -> _contactsState.emit(AddContactUi.ErrorUi(res.e.message))
+                is Result.Exception -> _contactsState.emit(AddContactUi.ErrorUi("res.e.message"))
             }
         }
     }

@@ -1,12 +1,16 @@
 package com.example.contacts.domain.usecase
 
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
 import com.example.contacts.common.Result
 import com.example.contacts.domain.model.Contact
 import com.example.contacts.domain.repository.ContactsRepository
 import com.example.contacts.presentation.contacts.adapter.ContactsAdapter
-import javax.inject.Inject
+import java.util.Random
 
-class GetContactsUseCase @Inject constructor(
+class GetContactsUseCase (
     private val contactsRepository: ContactsRepository
 ) {
 
@@ -26,6 +30,7 @@ class GetContactsUseCase @Inject constructor(
                 Result.Exception(data.e)
             }
         }
+
     }
 
     suspend fun getFilteredContacts(str: String): Result<List<ContactsAdapter.ListItem>> {
@@ -58,8 +63,14 @@ class GetContactsUseCase @Inject constructor(
 
     private fun sortList(data: List<Contact>): List<Contact> {
         val sortedList = data.toMutableList()
+
         sortedList.forEach {
             it.filterNumber()
+            if (it.image.toString().isNullOrEmpty()) {
+                val color = generateRandomColor()
+                it.bitmap =
+                    generateLetterBitmap(it.name.first().toUpperCase(), color, Color.WHITE, 45f)
+            }
         }
         sortedList.sortBy { it.name.first().toUpperCase() }
         return sortedList
@@ -77,5 +88,37 @@ class GetContactsUseCase @Inject constructor(
             transformedList.add(ContactsAdapter.ListItem.UiContact(contact))
         }
         return transformedList.toList()
+    }
+
+    private fun generateRandomColor(): Int {
+        val random = Random()
+        val r = random.nextInt(256)
+        val g = random.nextInt(256)
+        val b = random.nextInt(256)
+        return Color.rgb(r, g, b)
+    }
+
+    private fun generateLetterBitmap(
+        letter: Char,
+        backgroundColor: Int,
+        textColor: Int,
+        textSize: Float
+    ): Bitmap {
+        val bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        val paint = Paint().apply {
+            color = backgroundColor
+            style = Paint.Style.FILL
+        }
+        canvas.drawPaint(paint)
+
+        paint.color = textColor
+        paint.textSize = textSize
+        paint.textAlign = Paint.Align.CENTER
+        val x = canvas.width / 2F
+        val y = (canvas.height / 2F) - ((paint.descent() + paint.ascent()) / 2F)
+        canvas.drawText(letter.toString(), x, y, paint)
+
+        return bitmap
     }
 }

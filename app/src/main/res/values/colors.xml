@@ -5,6 +5,8 @@
     <color name="transparent">#00000000</color>
 
     <color name="gray">#9697A0</color>
+    <color name="primary_gray">#28282C</color>
+    <color name="Caption_gray">#C4C4C4</color>
     <color name="default_box_stroke_color">@color/black</color>
     <color name="et_color">#00D9FF</color>
 </resources>

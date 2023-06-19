@@ -9,7 +9,7 @@ import com.example.contacts.databinding.GroupItemBinding
 import com.example.contacts.domain.model.Contact
 
 
-class ContactsAdapter : ListAdapter<ContactsAdapter.ListItem, RecyclerView.ViewHolder>(
+class ContactsAdapter() : ListAdapter<ContactsAdapter.ListItem, RecyclerView.ViewHolder>(
     ContactsItemDiffUtilCallBack()
 ) {
 
@@ -56,7 +56,7 @@ class ContactsAdapter : ListAdapter<ContactsAdapter.ListItem, RecyclerView.ViewH
         data class GroupItem(val nameHeader: String) : ListItem(nameHeader.hashCode())
         data class UiContact(
             val contact: Contact,
-        ) : ListItem(contact.id.toInt())
+        ) : ListItem(contact.id.toString().toInt())
     }
 }
 

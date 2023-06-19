@@ -3,6 +3,7 @@ package com.example.contacts.presentation.contacts
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,18 +20,18 @@ import com.example.contacts.databinding.FragmentContactsBinding
 import com.example.contacts.presentation.common.snack
 import com.example.contacts.presentation.contacts.adapter.ContactsAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-@AndroidEntryPoint
 class ContactsFragment : Fragment() {
 
     private var _binding: FragmentContactsBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel:ContactsViewModel by viewModels()
+    private val viewModel by viewModel<ContactsViewModel>()
 
     private lateinit var adapter: ContactsAdapter
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,9 +54,9 @@ class ContactsFragment : Fragment() {
                 viewModel.filterContacts(it.toString())
             }
         }
-
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.contactsState.collect {
+                Log.d ("result log test", it.toString())
                 it.apply(adapter, binding.loadingProgressBar)
             }
         }

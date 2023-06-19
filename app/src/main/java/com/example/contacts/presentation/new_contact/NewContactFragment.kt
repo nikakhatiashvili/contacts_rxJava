@@ -11,7 +11,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -20,18 +19,16 @@ import com.example.contacts.databinding.FragmentNewContactBinding
 import com.example.contacts.presentation.common.isValidEmail
 import com.example.contacts.presentation.common.snack
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-@AndroidEntryPoint
 class NewContactFragment : Fragment() {
-
 
     private var _binding: FragmentNewContactBinding? = null
     private val binding get() = _binding!!
     private var image: Uri? = null
 
-    private val viewModel: NewContactViewModel by viewModels()
+    private val viewModel by viewModel<NewContactViewModel>()
 
 
     override fun onCreateView(
@@ -47,7 +44,6 @@ class NewContactFragment : Fragment() {
 
     private fun bind() {
         binding.apply {
-
             addPicture.setOnClickListener {
                 chooseFromGallery()
             }

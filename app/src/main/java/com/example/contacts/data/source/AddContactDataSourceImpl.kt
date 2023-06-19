@@ -10,12 +10,10 @@ import android.os.Build
 import android.provider.ContactsContract
 import android.provider.MediaStore
 import com.example.contacts.domain.repository.source.AddContactDataSource
-import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.ByteArrayOutputStream
-import javax.inject.Inject
 
-class AddContactDataSourceImpl @Inject constructor(
-    @ApplicationContext private val context: Context
+class AddContactDataSourceImpl(
+     private val context: Context
 ) : AddContactDataSource {
     override suspend fun addContact(
         name: String,

@@ -2,14 +2,14 @@ package com.example.contacts.data.source
 
 import android.content.ContentResolver
 import android.content.Context
+import android.net.Uri
 import android.provider.ContactsContract
 import com.example.contacts.domain.model.Contact
 import com.example.contacts.domain.repository.source.ContactsDataSource
-import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Inject
+import java.lang.Exception
 
-class ContactsDataSourceImpl @Inject constructor(
-    @ApplicationContext private val context: Context
+class ContactsDataSourceImpl(
+    private val context: Context
 ) : ContactsDataSource {
 
     override suspend fun getContacts(): List<Contact> {
@@ -25,13 +25,25 @@ class ContactsDataSourceImpl @Inject constructor(
         )
         if (cur != null && cur.count > 0) {
             while (cur.moveToNext()) {
-                val id =
+                val pictureUri: Uri?
+
+                val id =try {
                     cur.getString(cur.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NAME_RAW_CONTACT_ID))
-                val name =
+                }catch (e:Exception){""}
+                val name = try {
                     cur.getString(cur.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
-                val number =
+                }catch (e:Exception){""}
+
+                val number = try {
                     cur.getString(cur.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER))
-                contacts.add(Contact(id, name, number))
+                }catch (e:Exception) {""}
+
+                val pictureUrl:String = try {
+                    cur.getString(cur.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Photo.PHOTO_URI))
+                }catch (e:Exception){ "" }
+
+                pictureUri = Uri.parse(pictureUrl)
+                contacts.add(Contact(id, name, number,pictureUri,null))
             }
         }
         return contacts
