@@ -9,7 +9,7 @@ import com.example.contacts.databinding.GroupItemBinding
 import com.example.contacts.domain.model.Contact
 
 
-class ContactsAdapter() : ListAdapter<ContactsAdapter.ListItem, RecyclerView.ViewHolder>(
+class ContactsAdapter : ListAdapter<ContactsAdapter.ListItem, RecyclerView.ViewHolder>(
     ContactsItemDiffUtilCallBack()
 ) {
 

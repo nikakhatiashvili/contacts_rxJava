@@ -5,6 +5,6 @@ import com.example.contacts.domain.model.Contact
 
 interface ContactsRepository {
 
-    suspend fun getContacts(): Result<List<Contact>>
+     fun getContacts(): Result<List<Contact>>
 
 }

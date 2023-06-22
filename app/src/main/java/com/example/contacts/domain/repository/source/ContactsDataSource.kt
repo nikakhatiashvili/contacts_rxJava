@@ -4,5 +4,6 @@ import com.example.contacts.domain.model.Contact
 
 interface ContactsDataSource {
 
-    suspend fun getContacts(): List<Contact>
+     fun getContacts(): List<Contact>
+
 }

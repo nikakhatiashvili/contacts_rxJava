@@ -1,7 +1,6 @@
 package com.example.contacts.presentation.common
 
 import android.content.Intent
-import android.graphics.Color
 import android.net.Uri
 import android.provider.Settings
 import android.view.View
@@ -13,7 +12,6 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.util.Random
 
 fun View.snack(message: String) {
     Snackbar.make(this, message, Snackbar.LENGTH_SHORT)

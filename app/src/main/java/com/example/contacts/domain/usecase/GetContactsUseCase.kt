@@ -8,29 +8,31 @@ import com.example.contacts.common.Result
 import com.example.contacts.domain.model.Contact
 import com.example.contacts.domain.repository.ContactsRepository
 import com.example.contacts.presentation.contacts.adapter.ContactsAdapter
+import io.reactivex.rxjava3.core.Observable
 import java.util.Random
 
-class GetContactsUseCase (
+class GetContactsUseCase(
     private val contactsRepository: ContactsRepository
 ) {
 
-    suspend fun getContacts(): Result<List<ContactsAdapter.ListItem>> {
+    fun getContacts(): Observable<List<ContactsAdapter.ListItem>> {
         val data = contactsRepository.getContacts()
         return when (data) {
             is Result.Success -> {
                 val list = sortList(data.data)
-                Result.Success(getTransformedList(list))
+                Observable.just(getTransformedList(list))
             }
 
             is Result.Error -> {
-                Result.Error(data.message)
+                Observable.empty()
+//                Result.Error(data.message)
             }
 
             is Result.Exception -> {
-                Result.Exception(data.e)
+                Observable.error(data.e)
+//                Result.Exception(data.e)
             }
         }
-
     }
 
     suspend fun getFilteredContacts(str: String): Result<List<ContactsAdapter.ListItem>> {

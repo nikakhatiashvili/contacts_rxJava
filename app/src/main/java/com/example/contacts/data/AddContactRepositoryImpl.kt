@@ -21,7 +21,7 @@ class AddContactRepositoryImpl(
             if (data) Result.Success("successfully added contact")
             else Result.Error("something went wrong")
         } catch (e: Exception) {
-            Result.Exception(e.message.toString())
+            Result.Exception(e)
         }
     }
 }

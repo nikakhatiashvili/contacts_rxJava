@@ -6,5 +6,5 @@ sealed class Result<T> {
 
     class Error<T>(val message: String?) : Result<T>()
 
-    class Exception<T>(val e: String) : Result<T>()
+    class Exception<T>(val e: kotlin.Exception) : Result<T>()
 }

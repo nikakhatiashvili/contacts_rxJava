@@ -1,5 +1,6 @@
 package com.example.contacts.data.source
 
+import android.accounts.NetworkErrorException
 import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
@@ -12,9 +13,10 @@ class ContactsDataSourceImpl(
     private val context: Context
 ) : ContactsDataSource {
 
-    override suspend fun getContacts(): List<Contact> {
+    override  fun getContacts(): List<Contact> {
         return getNamePhoneDetails()
     }
+
 
     private fun getNamePhoneDetails(): MutableList<Contact> {
         val contacts = mutableListOf<Contact>()
